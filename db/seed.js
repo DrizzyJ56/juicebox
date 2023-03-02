@@ -57,7 +57,7 @@ async function dropTables() {
 async function createTables() {
   try {
     console.log("Starting to build tables...");
-
+    console.log("???");
     await client.query(`
         CREATE TABLE users (
           id SERIAL PRIMARY KEY,
@@ -68,11 +68,11 @@ async function createTables() {
           active BOOLEAN DEFAULT true
         );
       `);
-
+    console.log("users built");
     await client.query(`
     CREATE TABLE posts(
     id SERIAL PRIMARY KEY,
-    "authorId" INTEGER REFERENCES users(id) NOT NULL,
+    "authorId" INTEGER REFERENCES users(id),
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     active BOOLEAN DEFAULT true
@@ -82,18 +82,6 @@ async function createTables() {
     console.log("Finished building tables!");
   } catch (error) {
     console.error("Error building tables!");
-    throw error;
-  }
-}
-
-async function rebuildDB() {
-  try {
-    client.connect();
-
-    await dropTables();
-    await createTables();
-    await createInitialUsers();
-  } catch (error) {
     throw error;
   }
 }
@@ -109,6 +97,20 @@ async function createInitialPosts() {
     throw error;
   }
 }
+
+async function rebuildDB() {
+  try {
+    client.connect();
+
+    await dropTables();
+    await createTables();
+    await createInitialUsers();
+    await createInitialPosts();
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function testDB() {
   try {
     console.log("Starting to test database...");
@@ -128,16 +130,16 @@ async function testDB() {
     const posts = await getAllPosts();
     console.log("Result:", posts);
 
-    console.log("Calling updatePost on posts[0]");
+    console.log("Calling updatePost on posts[0]", posts[0]);
     const updatePostResult = await updatePost(posts[0].id, {
       title: "New Title",
       content: "Updated Content",
     });
     console.log("Result:", updatePostResult);
 
-    console.log("Calling getUserById with 1");
-    const albert = await getUserById(1);
-    console.log("Result:", albert);
+    // console.log("Calling getUserById with 1");
+    // const albert = await getUserById(1);
+    // console.log("Result:", albert);
 
     console.log("Finished database tests!");
   } catch (error) {

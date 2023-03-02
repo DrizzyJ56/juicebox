@@ -62,7 +62,7 @@ async function createPost({ authorId, title, content }) {
       rows: [post],
     } = await client.query(
       `
-                INSERT INTO posts (authorId, title, content) 
+                INSERT INTO posts ("authorId", title, content) 
                 VALUES ($1, $2, $3) 
             `,
       [authorId, title, content]
@@ -73,10 +73,11 @@ async function createPost({ authorId, title, content }) {
   }
 }
 
-async function updatePost(id, { title, content, active }) {
-  const setString = Object.keys(title, content, active)
+async function updatePost(id, fields = {}) {
+  const setString = Object.keys(fields)
     .map((key, index) => `"${key}"=$${index + 1}`)
     .join(", ");
+
   if (setString.length === 0) {
     return;
   }
@@ -88,10 +89,10 @@ async function updatePost(id, { title, content, active }) {
       `
     UPDATE posts
     SET ${setString}
-    WHERE id = ${id}
+    WHERE "authorId" = ${id}
     RETURNING *;
     `,
-      Object.values(title, content, active)
+      Object.values(fields)
     );
     return post;
   } catch (error) {
@@ -102,7 +103,7 @@ async function updatePost(id, { title, content, active }) {
 
 async function getAllPosts() {
   const { rows } = await client.query(
-    `SELECT id, authorId, title, content, active
+    `SELECT id, "authorId", title, content, active
     FROM posts;`
   );
   return rows;
