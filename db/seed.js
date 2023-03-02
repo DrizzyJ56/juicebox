@@ -101,7 +101,6 @@ async function createInitialPosts() {
 async function rebuildDB() {
   try {
     client.connect();
-
     await dropTables();
     await createTables();
     await createInitialUsers();
@@ -137,9 +136,13 @@ async function testDB() {
     });
     console.log("Result:", updatePostResult);
 
-    // console.log("Calling getUserById with 1");
-    // const albert = await getUserById(1);
-    // console.log("Result:", albert);
+    console.log("Getting posts by user");
+    const postsByUser = await getPostsByUser(1);
+    console.log("Posts by user:", postsByUser);
+
+    console.log("Calling getUserById with 1");
+    const albert = await getUserById(1);
+    console.log("Result:", albert);
 
     console.log("Finished database tests!");
   } catch (error) {
