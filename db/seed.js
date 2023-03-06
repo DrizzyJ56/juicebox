@@ -13,6 +13,7 @@ const {
   addTagsToPost,
   getPostsByTagName,
   getAllTags,
+  getPostById,
 } = require("./index");
 
 async function createInitialUsers() {
@@ -208,6 +209,6 @@ async function testDB() {
 }
 
 rebuildDB()
-  // .then(testDB)
+  .then(testDB)
   .catch(console.error)
   .finally(() => client.end());
