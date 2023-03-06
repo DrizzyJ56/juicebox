@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "nodemon ./db/seed.js",
-    "start": "npm run seed && node index.js",
+    "start": "npm i && npm run seed && node index.js",
     "start:dev": "nodemon index.js"
   },
   "keywords": [],
