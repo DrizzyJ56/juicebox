@@ -1,6 +1,6 @@
 const { Client } = require("pg");
 
-const client = new Client("postgres://localhost:5432/juicebox-dev");
+const client = new Client(DATABASE_URL);
 
 async function getAllUsers() {
   const { rows } = await client.query(
