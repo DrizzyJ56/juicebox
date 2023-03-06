@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "nodemon ./db/seed.js",
-    "start": "npm i && npm run seed && node index.js",
-    "start:dev": "nodemon index.js"
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
+    "build": "npm i && npm run seed"
   },
   "keywords": [],
   "author": "",
