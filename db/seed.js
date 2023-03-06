@@ -12,7 +12,7 @@ const {
   createPostTag,
   addTagsToPost,
   getPostsByTagName,
-  getAllTags
+  getAllTags,
 } = require("./index");
 
 async function createInitialUsers() {
@@ -196,9 +196,9 @@ async function testDB() {
     const postsWithHappy = await getPostsByTagName("#happy");
     console.log("Result:", postsWithHappy);
 
-    console.log("calling get all tags")
-    const tags = await getAllTags()
-    console.log("Result:", tags)
+    console.log("calling get all tags");
+    const tags = await getAllTags();
+    console.log("Result:", tags);
 
     console.log("Finished database tests!");
   } catch (error) {
@@ -208,6 +208,6 @@ async function testDB() {
 }
 
 rebuildDB()
-  .then(testDB)
+  // .then(testDB)
   .catch(console.error)
   .finally(() => client.end());
